@@ -1,14 +1,18 @@
 import "../globals.css";
 import React from "react";
 import Footer from "@/components/core/footer";
-import Sidebar from "@/components/core/sideBar";
+import {AppSidebar} from "@/components/core/appSideBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
-export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+
+export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <>
-            <Sidebar/>
-                {children}
-            <Footer/>
-        </>
-    );
+        <SidebarProvider>
+            <AppSidebar />
+                <main className="w-full h-full">
+                    <SidebarTrigger />
+                        {children}
+                </main>
+        </SidebarProvider>
+    )
 }

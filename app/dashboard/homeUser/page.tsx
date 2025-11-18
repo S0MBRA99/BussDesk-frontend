@@ -1,8 +1,10 @@
-
+import Link from "next/link";
 
 
 export default function HomeUser() {
     return (
-        <h1>hello you are logged!!!</h1>
+        <>
+            <h1>Main Content</h1>
+        </>
     )
 }
