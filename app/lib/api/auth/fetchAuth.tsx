@@ -23,7 +23,7 @@ export async function fetchLogin(obj:ObjLogin) {
 }
 
 export async function fetchUserRegister(obj:ObjUserRegister) {
-    const resp = await fetch(`http://127.0.0.1:8000/login`, {
+    const resp = await fetch(`http://127.0.0.1:8000/register/user`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -38,7 +38,7 @@ export async function fetchUserRegister(obj:ObjUserRegister) {
 }
 
 export async function fetchCompanyRegister(obj:ObjCompanyRegister) {
-    const resp = await fetch(`http://127.0.0.1:8000/login`, {
+    const resp = await fetch(`http://127.0.0.1:8000/register/company`, {
         method: 'POST',
         mode: 'cors',
         headers: {

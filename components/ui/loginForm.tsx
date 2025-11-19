@@ -39,7 +39,6 @@ export default function LoginForm(){
                     placeholder=" Enter your email"
                     value={objLogin.email}
                     onChange={handleChange}
-                    required
                 />
             </div>
             <div className="flex flex-col w-1/2 mx-auto pt-3">
@@ -52,7 +51,6 @@ export default function LoginForm(){
                     placeholder=" Enter your Password"
                     value={objLogin.password}
                     onChange={handleChange}
-                    required
                 />
             </div>
             <div className="flex w-1/3 mx-auto justify-center align-middle pt-7">

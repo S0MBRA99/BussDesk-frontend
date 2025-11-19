@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function HomeUser() {
     return (
         <>
-            <h1>Main Content user</h1>
+            <h1>Main Content Company</h1>
         </>
     )
 }

@@ -7,28 +7,52 @@ import {ObjCompanyRegister, ObjCompanyRegisterResponse} from "@/app/types";
 export default function CompanyForm() {
 
     const router = useRouter();
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        let resp: ObjCompanyRegisterResponse = await fetchCompanyRegister(objCompany)
-        console.log(resp)
-        //router.push("/dashboard/homeUser")
-    }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setObjCompany({...objCompany,[e.target.name]:e.target.value})
-    }
-
+    const [requiredObj, setRequiredObj] = useState("");
     const [objCompany, setObjCompany] = useState<ObjCompanyRegister>({
         companyName: "",
         companyLogo: null,
         companyEmail: "",
         companyPhone: "",
         password: "",
+        companyConfirmPassword: "",
         adminName: "",
         country: "",
-        website: "",
+        website: ""
     })
+    const required: string[] = [
+        "companyName",
+        "companyEmail",
+        "password" ,
+        "adminName",
+        "companyPhone",
+        "country"
+    ]
+
+    const verifyObj = async (obj: ObjCompanyRegister)=>{
+        if (obj.password !== obj.companyConfirmPassword){
+            return setRequiredObj("Passwords are not match");
+        }
+        if (required.some(field => !obj[field as keyof ObjCompanyRegister])){ {/* MUCHO CUIDADO CON ESTO*/}
+            return setRequiredObj("Required fields are empty");
+        }
+        return true;
+    }
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const result = await verifyObj(objCompany)
+        if(result) {
+            let resp: ObjCompanyRegisterResponse = await fetchCompanyRegister(objCompany)
+            console.log(resp);
+            router.push("/dashboard/homeCompany")
+        }else{
+            return ""
+        }
+    }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setObjCompany({...objCompany,[e.target.name]:e.target.value})
+    }
 
     return (
         <div className="bg-stone-200 rounded-lg shadow-2xl w-full max-w-3xl p-8">
@@ -39,7 +63,7 @@ export default function CompanyForm() {
                 <div className="flex gap-6">
                     <div className="flex flex-col gap-2 w-1/2">
                         <label htmlFor="companyName" className="text-sm font-medium text-gray-700">
-                            Company Name*
+                            Company Name
                         </label>
                         <input
                             type="text"
@@ -81,7 +105,7 @@ export default function CompanyForm() {
                     </div>
                     <div className="flex flex-col gap-2 w-1/2">
                         <label htmlFor="phone" className="text-sm font-medium text-gray-700">
-                            Phone*
+                            Phone
                         </label>
                         <input
                             type="tel"
@@ -167,13 +191,16 @@ export default function CompanyForm() {
                         />
                         <p className="text-xs text-red-500 mt-1">* Optional</p>
                     </div>
-                    <div className="w-1/2 flex justify-center  items-center mb-7">
+                    <div className="w-1/2 flex flex-col justify-center  items-center mb-7">
                         <button
                             type="submit"
                             className="bg-gray-200 hover:bg-blue-400 text-gray-800 font-medium px-8 py-2 rounded-md border border-gray-400 transition-colors"
                         >
                             Submit
                         </button>
+                        {requiredObj? (
+                            <p className="text-red-500 mt-2">{requiredObj}</p>
+                        ):('')}
                     </div>
                 </div>
 

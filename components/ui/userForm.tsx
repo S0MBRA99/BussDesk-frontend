@@ -8,26 +8,46 @@ import {ObjUserRegister, ObjUserRegisterResponse} from "@/app/types";
 export default function UserForm() {
 
     const router = useRouter();
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        let resp: ObjUserRegisterResponse = await fetchUserRegister(objUser);
-        console.log(resp)
-        //router.push("/dashboard/homeUser")
-    }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setObjForm({...objUser,[e.target.name]:e.target.value})
-    }
-
-    const [objUser, setObjForm] = useState<ObjUserRegister>({
+    const [requiredObj, setRequiredObj] = useState("");
+    const [objUser, setObjUser] = useState<ObjUserRegister>({
         userName: "",
         companyToken: "",
         userEmail: "",
         userPhone: "",
         userPassword: "",
+        userConfirmPassword:"",
         companyRole: ""
     })
+    const required: string[] = [
+        "userName",
+        "userEmail",
+        "userPhone",
+        "userPassword"
+    ]
+
+    const verifyObj = async (obj: ObjUserRegister)=>{
+        if (obj.userPassword !== obj.userConfirmPassword){
+            return setRequiredObj("Passwords are not match");
+        }
+        if (required.some(field => !obj[field as keyof ObjUserRegister])){
+            return setRequiredObj("Required fields are empty");
+        }
+        return true;
+    }
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const result = await verifyObj(objUser)
+        if (result){
+            let resp: ObjUserRegisterResponse = await fetchUserRegister(objUser);
+            console.log(resp);
+            router.push("/dashboard/homeUser")
+        }
+    }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setObjUser({...objUser,[e.target.name]:e.target.value})
+    }
 
     return (
         <div className="bg-stone-200 rounded-lg shadow-2xl w-full max-w-3xl p-8">
@@ -80,7 +100,7 @@ export default function UserForm() {
                     </div>
                     <div className="flex flex-col gap-2 w-1/2">
                         <label htmlFor="userPhone" className="text-sm font-medium text-gray-700">
-                            Phone*
+                            Phone
                         </label>
                         <input
                             type="tel"
@@ -137,16 +157,18 @@ export default function UserForm() {
                         />
                         <p className="text-xs text-red-500 mt-1">* Optional</p>
                     </div>
-                    <div className="w-1/2 flex justify-center">
+                    <div className="w-1/2 flex flex-col justify-center  items-center mb-7">
                         <button
                             type="submit"
                             className="bg-gray-200 hover:bg-blue-400 text-gray-800 font-medium px-8 py-2 rounded-md border border-gray-400 transition-colors"
                         >
                             Accept
                         </button>
+                        {requiredObj? (
+                            <p className="text-red-500 mt-2">{requiredObj}</p>
+                        ):('')}
                     </div>
                 </div>
-
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600">
                         Already registered?{' '}

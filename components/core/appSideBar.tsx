@@ -61,7 +61,7 @@ const items = [
         title: "Settings",
         icon: Settings,
         subItems: [
-            { title: "Profile", url: "/dashboard/profile" },
+            { title: "Profile", url: "/dashboard/homeUser/profile" },
             { title: "Log Out", url: "#", icon: LogOut },
         ]
     }
@@ -110,7 +110,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
         } else {
             return (
                 <SidebarMenuSubItem key={item.title}>
-                    <SidebarMenuSubButton asChild style={{ paddingLeft: `${level * 8}px` }}>
+                    <SidebarMenuSubButton asChild style={{ paddingLeft: `${level * 6}px` }}>
                         <Link href={item.url || '#'}>
                             {ItemIcon && <ItemIcon className="text-blue-500" />}
                             <span>{item.title}</span>
@@ -125,7 +125,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible={"icon"}>
+        <Sidebar collapsible={"icon"} className="mr-0">
             <SidebarContent className="bg-gray-200-400"> {/*This is the full sidebar */}
                 <SidebarGroup>{/*This is the name and the options*/}
                     <SidebarGroupLabel className="text-2xl">Menu</SidebarGroupLabel>
