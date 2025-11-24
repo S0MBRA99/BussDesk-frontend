@@ -1,4 +1,4 @@
-import { Settings, UserRound, Folder, ChevronDown, Building, Users, Code, LogOut } from "lucide-react"
+import { Settings, UserRound, Folder, ChevronDown, Building, Users, Code, LogOut, House } from "lucide-react"
 import Link from "next/link";
 import {
     Sidebar,
@@ -11,7 +11,8 @@ import {
     SidebarMenuItem,
     SidebarMenuSub,
     SidebarMenuSubItem,
-    SidebarMenuSubButton
+    SidebarMenuSubButton,
+    SidebarTrigger
 } from "@/components/ui/sidebar"
 import {
     Collapsible,
@@ -23,7 +24,7 @@ import {
 const items = [
     {
         title: "Home",
-        icon: UserRound,
+        icon: House,
         url: "/dashboard/homeUser"
     },
     {
@@ -42,6 +43,7 @@ const items = [
                     {
                         title: "Departament",
                         url: "#",
+                        icon: Building,
                         subItems: [
                             {
                                 title: "Dev",
@@ -61,7 +63,7 @@ const items = [
         title: "Settings",
         icon: Settings,
         subItems: [
-            { title: "Profile", url: "/dashboard/homeUser/profile" },
+            { title: "Profile", url: "/dashboard/homeUser/profile", icon: UserRound },
             { title: "Log Out", url: "#", icon: LogOut },
         ]
     }
@@ -75,8 +77,8 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
             <Collapsible key={item.title} className={`group/collapsible-${level}`}>
                 <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
-                        <SidebarMenuButton className={level > 0 ? `pl-${level*4}`: ""}>
-                            {ItemIcon && <ItemIcon className="text-blue-500"/>}
+                        <SidebarMenuButton>
+                            {ItemIcon && <ItemIcon className="!text-blue-500"/>}
                             <span>{item.title}</span>
                             <ChevronDown/>
                         </SidebarMenuButton>
@@ -101,7 +103,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
                 <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                         <Link href={item.url || '#'}>
-                            {ItemIcon && <ItemIcon className="text-blue-500" />}
+                            {ItemIcon && <ItemIcon className="!text-blue-500" />}
                             <span>{item.title}</span>
                         </Link>
                     </SidebarMenuButton>
@@ -110,9 +112,9 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
         } else {
             return (
                 <SidebarMenuSubItem key={item.title}>
-                    <SidebarMenuSubButton asChild style={{ paddingLeft: `${level * 6}px` }}>
+                    <SidebarMenuSubButton asChild>
                         <Link href={item.url || '#'}>
-                            {ItemIcon && <ItemIcon className="text-blue-500" />}
+                            {ItemIcon && <ItemIcon className="!text-blue-500" />}
                             <span>{item.title}</span>
                         </Link>
                     </SidebarMenuSubButton>
@@ -125,12 +127,12 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible={"icon"} className="mr-0">
+        <Sidebar collapsible={"icon"} >
             <SidebarContent className="bg-gray-200-400"> {/*This is the full sidebar */}
+                <SidebarTrigger className="p-4 ml-5 mt-5 border border-gray-300 mx-auto cursor-pointer"/>
                 <SidebarGroup>{/*This is the name and the options*/}
-                    <SidebarGroupLabel className="text-2xl">Menu</SidebarGroupLabel>
                     <SidebarGroupContent>
-                        <SidebarMenu className="mt-4"> {/*This one is the options*/}
+                        <SidebarMenu className="mt-4">{/*This one is the options*/}
                             {items.map((item) => (
                                 <RenderMenuItem key={item.title} item={item}/>
                             ))}

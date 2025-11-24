@@ -1,27 +1,49 @@
+"use client"
+
 import "../globals.css";
-import React from "react";
+import {ReactNode, useEffect, useState} from "react";
 import Footer from "@/components/core/footer";
 import {AppSidebar} from "@/components/core/appSideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import ThemeProvider from "@/components/core/theme-provider";
+import {ModeToggle} from "@/components/core/modelToggle";
 
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        function handleResize() {
+            if (window.innerWidth < 768) {
+                setIsMobile(true);
+            }else(setIsMobile(false));
+        }
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    },[])
     return (
-        <ThemeProvider
-            attribute={"class"}
-            defaultTheme={"system"}
-            enableSystem
-            disableTransitionOnChange
-        >
-            <SidebarProvider>
+        <>
+            <SidebarProvider defaultOpen={false}>
                 <AppSidebar />
-                <main className="min-h-screen w-screen bg-gray-400">
-                    <SidebarTrigger className="p-5 bg-blue-400 ml-3 mt-3 border border-blue-600"/>
+                <ThemeProvider
+                    attribute={"class"}
+                    defaultTheme={"system"}
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <div className="h-screen w-screen bg-[url('/columna.png')] bg-cover bg-fixed">
+                        <div className="h-1/10">
+                            {isMobile ? <SidebarTrigger className="p-4 fixed top-5 left-5 border border-gray-300"/> : null}
+                            <ModeToggle />
+                        </div>
                         {children}
-                    <Footer />
-                </main>
+                    </div>
+                </ThemeProvider>
             </SidebarProvider>
-        </ThemeProvider>
+            <Footer />
+        </>
     )
 }
