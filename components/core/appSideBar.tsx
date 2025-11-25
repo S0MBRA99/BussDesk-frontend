@@ -12,13 +12,14 @@ import {
     SidebarMenuSub,
     SidebarMenuSubItem,
     SidebarMenuSubButton,
-    SidebarTrigger
+    SidebarTrigger, SidebarHeader
 } from "@/components/ui/sidebar"
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger
 } from "@/components/ui/collapsible"
+import {ModeToggle} from "@/components/core/modelToggle";
 
 // Menu items.
 const items = [
@@ -58,14 +59,6 @@ const items = [
                 ]
             }
         ]
-    },
-    {
-        title: "Settings",
-        icon: Settings,
-        subItems: [
-            { title: "Profile", url: "/dashboard/homeUser/profile", icon: UserRound },
-            { title: "Log Out", url: "#", icon: LogOut },
-        ]
     }
 ]
 
@@ -78,7 +71,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
                 <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
                         <SidebarMenuButton>
-                            {ItemIcon && <ItemIcon className="!text-blue-500"/>}
+                            {ItemIcon && <ItemIcon className="!text-dark dark:text-white"/>}
                             <span>{item.title}</span>
                             <ChevronDown/>
                         </SidebarMenuButton>
@@ -103,7 +96,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
                 <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                         <Link href={item.url || '#'}>
-                            {ItemIcon && <ItemIcon className="!text-blue-500" />}
+                            {ItemIcon && <ItemIcon className="!text-dark dark:text-white" />}
                             <span>{item.title}</span>
                         </Link>
                     </SidebarMenuButton>
@@ -114,7 +107,7 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
                 <SidebarMenuSubItem key={item.title}>
                     <SidebarMenuSubButton asChild>
                         <Link href={item.url || '#'}>
-                            {ItemIcon && <ItemIcon className="!text-blue-500" />}
+                            {ItemIcon && <ItemIcon className="!text-dark dark:text-white" />}
                             <span>{item.title}</span>
                         </Link>
                     </SidebarMenuSubButton>
@@ -127,9 +120,14 @@ function RenderMenuItem({item, level = 0}:{item:any, level? :number}){
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible={"icon"} >
-            <SidebarContent className="bg-gray-200-400"> {/*This is the full sidebar */}
-                <SidebarTrigger className="p-4 ml-5 mt-5 border border-gray-300 mx-auto cursor-pointer"/>
+        <Sidebar collapsible={"icon"} className="
+                                            !bg-[url('/marmol-blanco.jpeg')]
+                                            dark:!bg-[url('/marmol-negro.jpeg')]
+                                            bg-cover bg-center bg-no-repeat">
+            <SidebarHeader className="!bg-transparent">
+                <SidebarTrigger className="p-4 ml-5 mt-5 border mx-auto border-gray-300 cursor-pointer"/>
+            </SidebarHeader>
+            <SidebarContent className="!bg-transparent"> {/*This is the full sidebar */}
                 <SidebarGroup>{/*This is the name and the options*/}
                     <SidebarGroupContent>
                         <SidebarMenu className="mt-4">{/*This one is the options*/}
