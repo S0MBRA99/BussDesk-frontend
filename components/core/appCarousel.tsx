@@ -5,23 +5,21 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Card, CardContent } from "@/components/ui/card"
+import TodoList from "@/components/core/todoComponent";
+import CalendarComponent from "@/components/core/calendarComponent";
+import ChatLocalComponent from "@/components/core/chatLocalComponent";
 
 export default function AppCarousel() {
 
-    const arrayTest = ["one", "two", "three", "four", "five"]
+    const arrayTest = [<TodoList/>, <CalendarComponent/>, <ChatLocalComponent/>, "four", "five"]
 
     return (
-        <Carousel className="w-full max-w-xs h-1/2">
+        <Carousel>
             <CarouselContent>
                 {arrayTest.map((item, index) => (
-                    <CarouselItem key={index}>
-                        <div className="p-1">
-                            <Card className="h-full">
-                                <CardContent className="flex aspect-square items-center justify-center p-6">
-                                    <span className="text-4xl font-semibold">{item}</span>
-                                </CardContent>
-                            </Card>
+                    <CarouselItem key={index} className="basis-full h-[75vh]">
+                        <div className="border-sidebar flex flex-col overflow-auto h-full w-[80%] mx-auto rounded-md bg-white dark:bg-stone-950">
+                            <div>{item}</div>
                         </div>
                     </CarouselItem>
                 ))}
