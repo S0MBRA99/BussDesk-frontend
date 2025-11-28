@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                         fixed
                         top-1/4
                         right-1/8
-                        bg-[url('/columna.png')]
+                        bg-[url('/column.png')]
                         bg-no-repeat
                         bg-contain
                         bg-right-top

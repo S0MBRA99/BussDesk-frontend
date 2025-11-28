@@ -6,6 +6,7 @@ import {
 import TodoList from "@/components/core/todoComponent"
 import CalendarComponent from "@/components/core/calendarComponent";
 import ChatLocalComponent from "@/components/core/chatLocalComponent";
+import ShowTodosCompleted from "@/components/core/showTodosCompleted";
 
 export function ResizableContent() {
     return (
@@ -39,7 +40,7 @@ export function ResizableContent() {
                     <ResizableHandle />
                     <ResizablePanel defaultSize={50}>
                         <div className="flex h-full items-center justify-center p-6 bg-white dark:bg-stone-950">
-                            <span className="font-semibold">Three</span>
+                            <ShowTodosCompleted/>
                         </div>
                     </ResizablePanel>
                 </ResizablePanelGroup>

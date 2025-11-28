@@ -1,13 +1,7 @@
 import React, { useState,useEffect,useRef } from 'react';
 import { Plus, Trash2, CheckCircle2, Circle, User } from 'lucide-react';
-
-interface Todo {
-    id: string;
-    text: string;
-    assignedTo: string;
-    completed: boolean;
-    createdAt: Date;
-}
+import {globalTodoStore} from "@/app/lib/store";
+import {Todo} from "@/app/types";
 
 interface User {
     id: string;
@@ -16,7 +10,7 @@ interface User {
 
 export default function TodoList() {
 
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const {todos, setTodos} = globalTodoStore();
     const [inputText, setInputText] = useState('');
     const [selectedUser, setSelectedUser] = useState('');
     const [userSearchQuery, setUserSearchQuery] = useState('');
