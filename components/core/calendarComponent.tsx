@@ -8,7 +8,7 @@ export default function CalendarComponent() {
         <div className="h-full w-full flex flex-col">
 
             {/* Top bar */}
-            <div className="w-full flex items-center justify-end p-2 sm:p-3">
+            <div className="w-full flex items-center justify-end">
                 <button
                     onClick={() => setShowHelpModal(true)}
                     title="How to see your calendar"
