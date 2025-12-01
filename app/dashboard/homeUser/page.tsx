@@ -1,7 +1,6 @@
 "use client"
-import Link from "next/link";
+
 import {ResizableContent} from "@/components/core/resizableContent"
-import {useEffect} from "react";
 import {useDeviceStore} from "@/app/lib/store";
 import AppCarousel from "@/components/core/appCarousel";
 

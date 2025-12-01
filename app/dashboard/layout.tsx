@@ -35,20 +35,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {/*<div className="
-                        w-screen h-screen
-                        fixed
-                        top-1/4
-                        right-1/8
-                        bg-[url('/column.png')]
-                        bg-no-repeat
-                        bg-contain
-                        bg-right-top
-                        pointer-events-none
-                        z-10
-                        opacity-5
-                        dark:opacity-25
-                        "/>*/}
                     <div className="
                         w-[500px] h-[500px]
                         fixed

@@ -1,8 +1,8 @@
 import { create } from 'zustand'
-import {TodoStore,Todo} from "@/app/types";
+import {DeviceStore,TaskStore,TaskSection} from "@/app/types";
 
 
-export const useDeviceStore = create((set)=>({
+export const useDeviceStore = create<DeviceStore>((set)=>({
 
     //states
     isMobile: false,
@@ -11,7 +11,7 @@ export const useDeviceStore = create((set)=>({
     setIsMobile: (value:boolean)=> set({isMobile: value}),
 }))
 
-export const globalTodoStore = create<TodoStore>((set)=>({
-    todos: [] as Todo[],
-    setTodos: (todos) => set({todos})
-}))
+export const useTasksStore = create<TaskStore>((set) => ({
+    tasks: [],
+    setTasks: (value: TaskSection[]) => set({ tasks: value }),
+}));
