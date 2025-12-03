@@ -50,11 +50,11 @@ export default function Layout({ children }: { children: ReactNode }) {
                         dark:opacity-1
                         "/>
                     <div className="h-screen w-screen bg-stone-100 dark:bg-black">
-                        <div className="h-1/10">
+                        <div className="h-1/12">
                             {isMobile ? <SidebarTrigger className="p-4 fixed top-5 left-5 border border-gray-300"/> : null}
                             <ModeToggle />
                         </div>
-                        {children}
+                            {children}
                     </div>
                 </ThemeProvider>
             </SidebarProvider>

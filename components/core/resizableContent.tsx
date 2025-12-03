@@ -104,7 +104,7 @@ export function ResizableContent() {
     };
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full w-full flex flex-col">
             {/* Control Buttons */}
             <div className="flex items-center justify-end gap-2 p-3">
                 <button
