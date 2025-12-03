@@ -248,3 +248,10 @@ export const dataTableTest:taskSection[] = [ // THIS IS AN EXAMPLE OF A FETCH-DA
         dueDate: "2025-12-07T19:00:00Z"
     }
 ]
+
+// FLAG ICON
+
+export interface FlagIconProps {
+    className?: string
+    fill?: string
+}
