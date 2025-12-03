@@ -6,11 +6,14 @@ import { format, formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {useState} from "react";
 
 export const columns: ColumnDef<TaskSection>[] = [
+
     {
         accessorKey: "createdBy",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -25,7 +28,7 @@ export const columns: ColumnDef<TaskSection>[] = [
     },
     {
         accessorKey: "description",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -40,7 +43,7 @@ export const columns: ColumnDef<TaskSection>[] = [
     },
     {
         accessorKey: "status",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -52,8 +55,9 @@ export const columns: ColumnDef<TaskSection>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => {
-            const status = row.getValue("status") as string;
+        cell: ({ row }:any) => {
+            const initialStatus = row.getValue("status") as string;
+            const [localStatus, setLocalStatus] = useState(initialStatus);
             const statusConfig = {
                 pending: {
                     label: "Pending",
@@ -68,19 +72,37 @@ export const columns: ColumnDef<TaskSection>[] = [
                     color: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20"
                 },
             };
-            const config = statusConfig[status] || statusConfig.pending;
+            const config = statusConfig[localStatus] || statusConfig.pending;
 
             return (
-                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${config.color}`}>
-                    <div className="w-1.5 h-1.5 rounded-full bg-current" />
-                    {config.label}
-                </div>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <button
+                            className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border cursor-pointer ${config.color}`}
+                        >
+                            <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                            {config.label}
+                        </button>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-40 space-y-1">
+                        {Object.entries(statusConfig).map(([key, cfg]: any) => (
+                            <button
+                                key={key}
+                                className={`w-full text-left px-2 py-1 rounded-md hover:bg-muted text-sm cursor-pointer`}
+                                onClick={() => setLocalStatus(key)} // cambiar por fetch y quitar es estado esto es solo de prueba visual
+                            >
+                                {cfg.label}
+                            </button>
+                        ))}
+                    </PopoverContent>
+                </Popover>
             );
         },
     },
     {
         accessorKey: "assignedTo",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -95,7 +117,7 @@ export const columns: ColumnDef<TaskSection>[] = [
     },
     {
         accessorKey: "priority",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -107,7 +129,7 @@ export const columns: ColumnDef<TaskSection>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => {
+        cell: ({ row }:any) => {
             const priority = row.getValue("priority") as string;
             const priorityConfig = {
                 low: {
@@ -143,7 +165,7 @@ export const columns: ColumnDef<TaskSection>[] = [
     },
     {
         accessorKey: "createdAt",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -155,7 +177,7 @@ export const columns: ColumnDef<TaskSection>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => {
+        cell: ({ row }:any) => {
             const date = new Date(row.getValue("createdAt"));
 
             return (
@@ -172,7 +194,7 @@ export const columns: ColumnDef<TaskSection>[] = [
     },
     {
         accessorKey: "dueDate",
-        header: ({ column }) => {
+        header: ({ column }:any) => {
             return (
                 <Button
                     variant="ghost"
@@ -184,7 +206,7 @@ export const columns: ColumnDef<TaskSection>[] = [
                 </Button>
             )
         },
-        cell: ({ row }) => {
+        cell: ({ row }:any) => {
             const date = new Date(row.getValue("dueDate"));
             const isOverdue = date < new Date();
 

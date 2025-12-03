@@ -37,8 +37,8 @@ export function ResizableContent() {
     const toggleTopPanel = () => {
         if (topCollapsed) {
             // Show table - return to 50/50
-            topPanelRef.current?.resize(50);
-            bottomPanelRef.current?.resize(50);
+            topPanelRef.current?.resize(100);
+            bottomPanelRef.current?.resize(0);
             setTopCollapsed(false);
         } else {
             // Hide table - bottom panel to 100%

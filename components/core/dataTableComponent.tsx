@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        //getPaginationRowModel: getPaginationRowModel(),// esto es lo que hace que haga paginacion de momento no esa implementado correctamente asiq comentado
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
@@ -62,9 +62,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
     return (
         <div className="flex flex-col h-full w-full">
-            {/* Header con filtros integrados */}
+            {/* Header */}
             <div className="flex items-center justify-between p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                {/* Left side - Title + Counter + Filters */}
                 <div className="flex items-center gap-4 flex-1">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-blue-500/10 rounded-lg">
@@ -98,7 +97,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                                 setFilterColumn(value)
                             }}
                         >
-                            <SelectTrigger className="w-[160px] h-9">
+                            <SelectTrigger className="md:w-[160px] w-[40px] h-9">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
