@@ -40,36 +40,34 @@ export function UserProfile() {
         <div className="flex w-full h-full items-center justify-items-center relative">
             {/* Profile Photo */}
             <section className="flex gap-3 h-full w-[40%] lg:w-[50%] relative">
-                <div
-                    className="
-            w-50 h-50
-            lg:w-60 lg:h-60
-            xl:w-90 xl:h-90
-            bg-[url('/Avatar.jpeg')]
-            shadow-[0_0_5px_2px_rgba(255,215,0,0.7)]
-            dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]
-            bg-no-repeat bg-cover bg-center
-            pointer-events-none rounded-full
-            absolute
-            top-10 left-10
-            lg:top-15 lg:left-15
-            xl:top-20 xl:left-20"
+                <div className="
+                    w-50 h-50
+                    lg:w-60 lg:h-60
+                    xl:w-90 xl:h-90
+                    bg-[url('/Avatar.jpeg')]
+                    shadow-[0_0_5px_2px_rgba(255,215,0,0.7)]
+                    dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]
+                    bg-no-repeat bg-cover bg-center
+                    pointer-events-none rounded-full
+                    absolute
+                    top-10 left-10
+                    lg:top-15 lg:left-15
+                    xl:top-20 xl:left-20"
                 />
             </section>
 
             {/* Camera Button */}
             <button className="
-        rounded-full
-        shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
-        dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
-        bg-white dark:bg-stone-950
-        p-3 flex items-center justify-center
-        hover:bg-stone-800
-        absolute
-        top-55 left-55
-        lg:top-68 lg:left-68
-        xl:top-100 xl:left-100
-        cursor-pointer"
+                rounded-full
+                shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                bg-white dark:bg-stone-950
+                p-3 flex items-center justify-center
+                absolute
+                top-55 left-55
+                lg:top-68 lg:left-68
+                xl:top-100 xl:left-100
+                cursor-pointer"
             >
                 <Camera className="text-dark dark:text-white w-5 h-5" />
             </button>
@@ -112,11 +110,11 @@ export function UserProfile() {
                     setIsModalOpen(true);
                 }}
                 className="
-          shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
-          dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
-          bottom-5 right-5 rounded-full bg-white
-          dark:bg-stone-950 p-2 flex items-center justify-center
-          hover:bg-stone-800 cursor-pointer absolute"
+                  shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                  dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                  bottom-5 right-5 rounded-full bg-white
+                  dark:bg-stone-950 p-2 flex items-center justify-center
+                  cursor-pointer absolute"
             >
                 <Pencil className="text-dark dark:text-white w-5 h-5" />
             </button>
