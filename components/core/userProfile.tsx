@@ -76,21 +76,32 @@ export function UserProfile() {
 
             {/* User Inputs */}
             <section className="h-[95%] w-[50%] flex gap-2 items-center justify-center rounded-md mt-40 lg:mt-0">
+
                 <div className="h-[80%] w-1/2 flex flex-col gap-15 items-center justify-center">
-                    {(Object.keys(formData) as Array<keyof UserFormData>).map((key) => (
-                        <div key={key} className="flex flex-col gap-5 justify-center w-full">
-                            <Label htmlFor={key} className="capitalize text-white/80">
-                                {key.replace(/([A-Z])/g, " $1")}
-                            </Label>
-                            <Input
-                                id={key}
-                                type="text"
-                                value={tempData[key]}
-                                onChange={handleChange}
-                                className="bg-[#0d0d0d] border border-white/10 text-white"
-                            />
-                        </div>
-                    ))}
+                    <div className="flex flex-col gap-5 justify-center w-full">
+                        <Label htmlFor="username">Username</Label>
+                        <Input id="username" type="text" value={formData.username} readOnly />
+                    </div>
+
+                    <div className="flex flex-col gap-5 justify-center w-full">
+                        <Label htmlFor="companyToken">Company Token</Label>
+                        <Input id="companyToken" type="text" value={formData.companyToken} readOnly />
+                    </div>
+
+                    <div className="flex flex-col gap-5 justify-center w-full">
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" type="email" value={formData.email} readOnly />
+                    </div>
+
+                    <div className="flex flex-col gap-5 justify-center w-full">
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input id="phone" type="tel" value={formData.phone} readOnly />
+                    </div>
+
+                    <div className="flex flex-col gap-5 justify-center w-full">
+                        <Label htmlFor="companyRole">Company Role</Label>
+                        <Input id="companyRole" type="text" value={formData.companyRole} readOnly />
+                    </div>
                 </div>
             </section>
 
@@ -113,7 +124,9 @@ export function UserProfile() {
             {/* ================= MODAL ================= */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
                     <div className="bg-[#1f1f1f] dark:bg-[#121212] w-[90%] max-w-lg rounded-2xl p-6 shadow-xl border border-white/10">
+
                         {/* Header */}
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold text-white">Edit Profile</h2>
@@ -124,6 +137,7 @@ export function UserProfile() {
 
                         {/* Form */}
                         <div className="flex flex-col gap-4 max-h-[70vh] overflow-y-auto pr-1">
+
                             {(Object.keys(formData) as Array<keyof UserFormData>).map((key) => (
                                 <div key={key} className="flex flex-col gap-2">
                                     <Label htmlFor={key} className="capitalize text-white/80">
@@ -139,6 +153,7 @@ export function UserProfile() {
                                     />
                                 </div>
                             ))}
+
                         </div>
 
                         {/* Buttons */}
@@ -157,7 +172,9 @@ export function UserProfile() {
                                 Save
                             </button>
                         </div>
+
                     </div>
+
                 </div>
             )}
         </div>
