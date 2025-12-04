@@ -1,6 +1,5 @@
 "use client"
 import {useDeviceStore} from "@/app/lib/store";
-import {CompanyProfile} from "@/components/core/companyProfile"
 import {UserProfile} from "@/components/core/userProfile";
 
 export default function Profile() {
