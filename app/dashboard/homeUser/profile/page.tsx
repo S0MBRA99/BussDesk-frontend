@@ -1,6 +1,7 @@
 "use client"
 import {useDeviceStore} from "@/app/lib/store";
-import {CompanyProfile} from "@/components/core/ProfileComponent"
+import {CompanyProfile} from "@/components/core/companyProfile"
+import {UserProfile} from "@/components/core/userProfile";
 
 export default function Profile() {
 
@@ -14,14 +15,12 @@ export default function Profile() {
                 <>
                     <div className="
                         h-full w-9/10 bg-[url('/bg-perfil-light.png')] dark:bg-[url('/bg-perfil-dark.png')]
-                        bg-white
                         bg-no-repeat
                         bg-cover
                         bg-center
-                        pointer-events-none
                         rounded-md"
                     >
-                        <CompanyProfile/>
+                        <UserProfile />
                     </div>
                 </>
             )}
