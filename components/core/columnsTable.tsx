@@ -1,5 +1,4 @@
 "use client"
-import { ColumnDef } from "@tantml/react-table"
 import { TaskSection } from "@/app/types"
 import FlagIcon from "@/components/ui/flagIcon"
 import { format, formatDistanceToNow } from "date-fns";
@@ -9,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import {useState} from "react";
 
-export const columns: ColumnDef<TaskSection>[] = [
+export const columns: any = [
 
     {
         accessorKey: "createdBy",
@@ -56,22 +55,26 @@ export const columns: ColumnDef<TaskSection>[] = [
             )
         },
         cell: ({ row }:any) => {
-            const initialStatus = row.getValue("status") as string;
-            const [localStatus, setLocalStatus] = useState(initialStatus);
-            const statusConfig = {
+            type Status = "pending" | "in-progress" | "completed";
+            // Obtenemos el valor de la fila y lo forzamos al tipo Status
+            let localStatus = row.getValue("status") as Status;
+
+            const statusConfig: Record<Status, { label: string; color: string }> = {
                 pending: {
                     label: "Pending",
-                    color: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20"
+                    color: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
                 },
                 "in-progress": {
                     label: "In Progress",
-                    color: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20"
+                    color: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20",
                 },
                 completed: {
                     label: "Completed",
-                    color: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20"
+                    color: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20",
                 },
             };
+
+            // Si por alguna razón viene un status desconocido, fallback a pending
             const config = statusConfig[localStatus] || statusConfig.pending;
 
             return (
@@ -90,7 +93,9 @@ export const columns: ColumnDef<TaskSection>[] = [
                             <button
                                 key={key}
                                 className={`w-full text-left px-2 py-1 rounded-md hover:bg-muted text-sm cursor-pointer`}
-                                onClick={() => setLocalStatus(key)} // cambiar por fetch y quitar es estado esto es solo de prueba visual
+                                onClick={() => {
+                                    localStatus = key
+                                }} // cambiar por fetch y quitar es estado esto es solo de prueba visual
                             >
                                 {cfg.label}
                             </button>
@@ -130,7 +135,8 @@ export const columns: ColumnDef<TaskSection>[] = [
             )
         },
         cell: ({ row }:any) => {
-            const priority = row.getValue("priority") as string;
+            type status = "low" | "medium" | "high" | "urgent";
+            const priority:status = row.getValue("priority");
             const priorityConfig = {
                 low: {
                     label: "Low",
