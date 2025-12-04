@@ -86,7 +86,7 @@ export type TaskStore = {
     setTasks: (value: TaskSection[]) => void
 }
 
-export const dataTableTest:taskSection[] = [ // THIS IS AN EXAMPLE OF A FETCH-DATA
+export const dataTableTest:TaskSection[] = [ // THIS IS AN EXAMPLE OF A FETCH-DATA
     {
         id: "1",
         createdBy: "Alice",
