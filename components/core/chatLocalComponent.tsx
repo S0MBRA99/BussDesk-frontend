@@ -95,7 +95,7 @@ export default function ChatLocalComponent() {
                 bg-gray-100 dark:bg-zinc-900
                 space-y-3
             "
-                 style={{ maxHeight: "70vh" }}  // Mejor soporte móvil
+                 style={{ maxHeight: "70vh" }}
             >
                 {messages.map(msg => {
                     const user = mockUsers.find(u => u.id === msg.userId);
@@ -123,52 +123,110 @@ export default function ChatLocalComponent() {
             </div>
 
             {/* Input + Emoji + Send */}
-            <div className="flex gap-2 items-center">
+            {isMobile ? (
+                <div className="flex flex-col gap-2 items-center">
 
-                {/* Text Input */}
-                <input
-                    type="text"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                    placeholder="Type a message..."
-                    className="
+                    {/* Text Input */}
+                    <input
+                        type="text"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                        placeholder="Type a message..."
+                        className="
+                        flex-1 p-2 border rounded-lg
+                        w-full
+                        dark:bg-zinc-700 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
+                    "
+                    />
+                    <div className="flex items-center w-full gap-2 mt-2 relative">
+                        {/* Emoji button */}
+                        <button
+                            onClick={() => setShowPicker(!showPicker)}
+                            className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700"
+                        >
+                            <SmilePlus className="w-5 h-5"/>
+                        </button>
+
+                        {/* Send Button */}
+                        <button
+                            onClick={sendMessage}
+                            disabled={!inputText.trim()}
+                            className="
+                              md:px-4
+                              text-base
+                              px-3 py-2.5 rounded-lg
+                              bg-blue-600 text-white
+                              hover:bg-blue-700
+                              disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                            Send
+                        </button>
+
+                        {/* Emoji Picker */}
+                        {showPicker && (
+                            <div
+                                className="absolute w-full z-50"
+                                ref={containerRefEmoji}
+                            >
+                                <EmojiPicker
+                                    onEmojiClick={onEmojiClick}
+                                    height={isMobile ? 500 : 350}
+                                    width={isMobile ? "100%" : 250}
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+                ):(
+                <div className="flex gap-2 items-center">
+
+                    {/* Text Input */}
+                    <input
+                        type="text"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                        placeholder="Type a message..."
+                        className="
                         flex-1 p-2 border rounded-lg
                         w-15
                         dark:bg-zinc-700 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-blue-500
                     "
-                />
+                    />
 
-                {/* Emoji button */}
-                <button
-                    onClick={() => setShowPicker(!showPicker)}
-                    className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700"
-                >
-                    <SmilePlus className="w-5 h-5"/>
-                </button>
+                    {/* Emoji button */}
+                    <button
+                        onClick={() => setShowPicker(!showPicker)}
+                        className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700"
+                    >
+                        <SmilePlus className="w-5 h-5"/>
+                    </button>
 
-                {/* Emoji Picker */}
-                {showPicker && (
-                    <div
-                        className="
+                    {/* Emoji Picker */}
+                    {showPicker && (
+                        <div
+                            className="
                             md:bottom-full top-full right-0
                             mb-3 z-50"
-                        ref={containerRefEmoji}
-                    >
-                        <EmojiPicker
-                            onEmojiClick={onEmojiClick}
-                            height={isMobile ? 250 : 350}
-                            width={isMobile ? 200 : 250}
-                        />
-                    </div>
-                )}
+                            ref={containerRefEmoji}
+                        >
+                            <EmojiPicker
+                                onEmojiClick={onEmojiClick}
+                                height={isMobile ? 250 : 350}
+                                width={isMobile ? 200 : 250}
+                            />
+                        </div>
+                    )}
 
-                {/* Send Button */}
-                <button
-                    onClick={sendMessage}
-                    disabled={!inputText.trim()}
-                    className="
+                    {/* Send Button */}
+                    <button
+                        onClick={sendMessage}
+                        disabled={!inputText.trim()}
+                        className="
                         md:px-4
                         text-sm md:text-base
                         px-2 py-2.5 rounded-lg
@@ -176,10 +234,12 @@ export default function ChatLocalComponent() {
                         hover:bg-blue-700
                         disabled:opacity-40 disabled:cursor-not-allowed
                     "
-                >
-                    Send
-                </button>
-            </div>
+                    >
+                        Send
+                    </button>
+                </div>
+            )}
+
         </div>
     );
 }
