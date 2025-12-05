@@ -30,6 +30,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import NewTaskModal from "@/components/core/newTaskModal"
 import { FileSpreadsheet, Search } from "lucide-react"
+import {useDeviceStore} from "@/app/lib/store";
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
@@ -59,61 +60,113 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         { value: "priority", label: "Priority" },
     ]
 
+    const {isMobile} = useDeviceStore()
+
     return (
         <div className="flex flex-col h-full w-full">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                <div className="flex items-center gap-4 flex-1">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-500/10 rounded-lg">
-                            <FileSpreadsheet className="size-5 text-blue-500" />
-                        </div>
-                        <div>
-                            <h2 className="text-base md:text-lg font-semibold">Tasks</h2>
-                            <p className="text-xs text-muted-foreground">
-                                {table.getFilteredRowModel().rows.length} of {data.length} tasks
-                            </p>
-                        </div>
-                    </div>
+            {isMobile ? (
+              <>
+                  <div className="flex flex-col gap-4 p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800 md:flex-row md:items-center md:justify-between">
+                      <div className="flex items-center gap-3">
+                          <div className="p-2 bg-blue-500/10 rounded-lg">
+                              <FileSpreadsheet className="size-5 text-blue-500" />
+                          </div>
+                          <div>
+                              <h2 className="text-base md:text-lg font-semibold">Tasks</h2>
+                              <p className="text-xs text-muted-foreground">
+                                  {table.getFilteredRowModel().rows.length} of {data.length} tasks
+                              </p>
+                          </div>
+                      </div>
+                      <div className="relative flex w-full md:max-w-md">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                          <Input
+                              placeholder={`Filter by ${filterableColumns.find(col => col.value === filterColumn)?.label}...`}
+                              value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
+                              onChange={(event) =>
+                                  table.getColumn(filterColumn)?.setFilterValue(event.target.value)
+                              }
+                              className="pl-9 h-9"
+                          />
+                      </div>
+                      <div className="w-full md:w-auto flex">
+                          <Select
+                              value={filterColumn}
+                              onValueChange={(value) => {
+                                  table.getColumn(filterColumn)?.setFilterValue("")
+                                  setFilterColumn(value)
+                              }}
+                          >
+                              <SelectTrigger className="w-full md:w-[160px] h-9">
+                                  <SelectValue placeholder="Filter by" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  {filterableColumns.map((col) => (
+                                      <SelectItem key={col.value} value={col.value}>
+                                          {col.label}
+                                      </SelectItem>
+                                  ))}
+                              </SelectContent>
+                          </Select>
+                      </div>
 
-                    {/* Filters */}
-                    <div className="flex items-center gap-2 flex-1 max-w-md">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                            <Input
-                                placeholder={`Filter by ${filterableColumns.find(col => col.value === filterColumn)?.label}...`}
-                                value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
-                                onChange={(event) =>
-                                    table.getColumn(filterColumn)?.setFilterValue(event.target.value)
-                                }
-                                className="pl-9 h-9"
-                            />
+                      <div className="w-full md:w-auto">
+                          <NewTaskModal/>
+                      </div>
+                  </div>
+              </>
+            ):(
+                <div className="flex items-center justify-between p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center gap-4 flex-1">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-blue-500/10 rounded-lg">
+                                <FileSpreadsheet className="size-5 text-blue-500" />
+                            </div>
+                            <div>
+                                <h2 className="text-base md:text-lg font-semibold">Tasks</h2>
+                                <p className="text-xs text-muted-foreground">
+                                    {table.getFilteredRowModel().rows.length} of {data.length} tasks
+                                </p>
+                            </div>
                         </div>
-                        <Select
-                            value={filterColumn}
-                            onValueChange={(value) => {
-                                table.getColumn(filterColumn)?.setFilterValue("")
-                                setFilterColumn(value)
-                            }}
-                        >
-                            <SelectTrigger className="md:w-[160px] w-[40px] h-9">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {filterableColumns.map((col) => (
-                                    <SelectItem key={col.value} value={col.value}>
-                                        {col.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+
+                        {/* Filters */}
+                        <div className="flex items-center gap-2 flex-1 max-w-md">
+                            <div className="relative flex-1">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                                <Input
+                                    placeholder={`Filter by ${filterableColumns.find(col => col.value === filterColumn)?.label}...`}
+                                    value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
+                                    onChange={(event) =>
+                                        table.getColumn(filterColumn)?.setFilterValue(event.target.value)
+                                    }
+                                    className="pl-9 h-9"
+                                />
+                            </div>
+                            <Select
+                                value={filterColumn}
+                                onValueChange={(value) => {
+                                    table.getColumn(filterColumn)?.setFilterValue("")
+                                    setFilterColumn(value)
+                                }}
+                            >
+                                <SelectTrigger className="md:w-[160px] w-[40px] h-9">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {filterableColumns.map((col) => (
+                                        <SelectItem key={col.value} value={col.value}>
+                                            {col.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
+                    <NewTaskModal />
                 </div>
-
-                {/* Right side - New Task Button */}
-                <NewTaskModal />
-            </div>
-
+            )}
             {/* Desktop Table */}
             <div className="flex-1 overflow-auto p-4 hidden sm:block">
                 <div className="border rounded-lg overflow-hidden">

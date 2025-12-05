@@ -1,7 +1,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { TaskSection, dataTableTest } from "@/app/types";
 import { CirclePlus, Flag, X, Calendar as CalendarIcon, User, FileText, ListTodo } from "lucide-react";
-import { useTasksStore } from "@/app/lib/store";
+import {useDeviceStore, useTasksStore} from "@/app/lib/store";
 import { format } from "date-fns";
 import {
     Select,
@@ -26,6 +26,7 @@ export default function NewTaskModal() {
     const [dueDate, setDueDate] = useState<Date>();
     const [priority, setPriority] = useState<TaskSection["priority"]>("medium");
     const { tasks, setTasks } = useTasksStore();
+    const {isMobile} = useDeviceStore()
 
     useEffect(() => {
         function addTest() {
@@ -59,21 +60,18 @@ export default function NewTaskModal() {
     };
 
     return (
-        <>
-            {/* Trigger Button */}
+        <div className="flex items-center justify-center">
             <button
                 className="
                     flex gap-2 cursor-pointer
                     items-center bg-blue-500
                     hover:bg-blue-600 rounded-lg
-                    text-xs md:text-sm
-                    md:font-medium md:px-3 md:py-2
-                    px-1.5 py-1 ml-2
+                    text-sm font-medium px-3 py-2
                     text-white"
                 onClick={() => setIsOpen(true)}
                 title="New Task"
             >
-                New Task <CirclePlus/>
+                New Task <CirclePlus className="w-4 h-4"/>
             </button>
 
             {/* Modal */}
@@ -264,6 +262,6 @@ export default function NewTaskModal() {
                     </div>
                 </>
             )}
-        </>
+        </div>
     );
 }
