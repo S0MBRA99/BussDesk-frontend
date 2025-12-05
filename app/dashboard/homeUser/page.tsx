@@ -7,7 +7,7 @@ import AppCarousel from "@/components/core/appCarousel";
 
 export default function HomeUser() {
 
-    const {isMobile, setIsMobile} = useDeviceStore();
+    const {isMobile} = useDeviceStore();
 
     return (
         <main className="h-8/10 w-full flex flex-col justify-center items-center">

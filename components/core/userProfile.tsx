@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState,ChangeEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Camera, Pencil, X } from "lucide-react";
+import { useDeviceStore } from "@/app/lib/store";
 
 type UserFormData = {
     username: string;
@@ -20,10 +21,11 @@ export function UserProfile() {
         companyRole: "Senior",
     });
 
+    const { isMobile } = useDeviceStore();
     const [tempData, setTempData] = useState<UserFormData>(formData);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setTempData((prev) => ({
             ...prev,
@@ -37,144 +39,299 @@ export function UserProfile() {
     };
 
     return (
-        <div className="flex w-full h-full items-center justify-items-center relative">
-            {/* Profile Photo */}
-            <section className="flex gap-3 h-full w-[40%] lg:w-[50%] relative">
-                <div className="
-                    w-50 h-50
-                    lg:w-60 lg:h-60
-                    xl:w-90 xl:h-90
-                    bg-[url('/Avatar.jpeg')]
-                    shadow-[0_0_5px_2px_rgba(255,215,0,0.7)]
-                    dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]
-                    bg-no-repeat bg-cover bg-center
-                    pointer-events-none rounded-full
-                    absolute
-                    top-10 left-10
-                    lg:top-15 lg:left-15
-                    xl:top-20 xl:left-20"
-                />
-            </section>
+        <>
+            {isMobile ? (
+                <div className="flex flex-col w-full h-full overflow-y-auto bg-transparent">
+                    {/* Avatar Section */}
+                    <section className="flex flex-col items-center pt-8 pb-6 relative">
+                        <div className="relative">
+                            {/* Profile Photo */}
+                            <div className="
+                                w-32 h-32 bg-[url('/Avatar.jpeg')]
+                                shadow-[0_0_5px_2px_rgba(255,215,0,0.7)]
+                                dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]
+                                bg-no-repeat bg-cover bg-center
+                                rounded-full"
+                            />
 
-            {/* Camera Button */}
-            <button className="
-                rounded-full
-                shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
-                dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
-                bg-white dark:bg-stone-950
-                p-3 flex items-center justify-center
-                absolute
-                top-55 left-55
-                lg:top-68 lg:left-68
-                xl:top-100 xl:left-100
-                cursor-pointer"
-            >
-                <Camera className="text-dark dark:text-white w-5 h-5" />
-            </button>
-
-            {/* User Inputs */}
-            <section className="h-[95%] w-[50%] flex gap-2 items-center justify-center rounded-md mt-40 lg:mt-0">
-
-                <div className="h-[80%] w-1/2 flex flex-col gap-15 items-center justify-center">
-                    <div className="flex flex-col gap-5 justify-center w-full">
-                        <Label htmlFor="username">Username</Label>
-                        <Input id="username" type="text" value={formData.username} readOnly />
-                    </div>
-
-                    <div className="flex flex-col gap-5 justify-center w-full">
-                        <Label htmlFor="companyToken">Company Token</Label>
-                        <Input id="companyToken" type="text" value={formData.companyToken} readOnly />
-                    </div>
-
-                    <div className="flex flex-col gap-5 justify-center w-full">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" value={formData.email} readOnly />
-                    </div>
-
-                    <div className="flex flex-col gap-5 justify-center w-full">
-                        <Label htmlFor="phone">Phone</Label>
-                        <Input id="phone" type="tel" value={formData.phone} readOnly />
-                    </div>
-
-                    <div className="flex flex-col gap-5 justify-center w-full">
-                        <Label htmlFor="companyRole">Company Role</Label>
-                        <Input id="companyRole" type="text" value={formData.companyRole} readOnly />
-                    </div>
-                </div>
-            </section>
-
-            {/* Pencil button that opens modal */}
-            <button
-                onClick={() => {
-                    setTempData(formData);
-                    setIsModalOpen(true);
-                }}
-                className="
-                  shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
-                  dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
-                  bottom-5 right-5 rounded-full bg-white
-                  dark:bg-stone-950 p-2 flex items-center justify-center
-                  cursor-pointer absolute"
-            >
-                <Pencil className="text-dark dark:text-white w-5 h-5" />
-            </button>
-
-            {/* ================= MODAL ================= */}
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-
-                    <div className="bg-[#1f1f1f] dark:bg-[#121212] w-[90%] max-w-lg rounded-2xl p-6 shadow-xl border border-white/10">
-
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold text-white">Edit Profile</h2>
-                            <button onClick={() => setIsModalOpen(false)}>
-                                <X className="w-6 h-6 text-gray-400 hover:text-white" />
+                            {/* Camera Button */}
+                            <button className="
+                                rounded-full shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                                dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                                bg-white dark:bg-stone-950 p-2
+                                flex items-center justify-center
+                                absolute bottom-0 right-0
+                                cursor-pointer"
+                            >
+                                <Camera className="text-dark dark:text-white w-4 h-4" />
                             </button>
                         </div>
 
-                        {/* Form */}
-                        <div className="flex flex-col gap-4 max-h-[70vh] overflow-y-auto pr-1">
+                        {/* Edit Button */}
+                        <button
+                            onClick={() => {
+                                setTempData(formData);
+                                setIsModalOpen(true);
+                            }}
+                            className="
+                                shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                                dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                                rounded-full bg-white dark:bg-stone-950 p-2
+                                flex items-center mt-4 ml-auto mr-5"
+                        >
+                            <Pencil className="text-dark dark:text-white w-4 h-4" />
+                        </button>
+                    </section>
 
-                            {(Object.keys(formData) as Array<keyof UserFormData>).map((key) => (
-                                <div key={key} className="flex flex-col gap-2">
-                                    <Label htmlFor={key} className="capitalize text-white/80">
-                                        {key.replace(/([A-Z])/g, " $1")}
-                                    </Label>
+                    {/* Form Fields - Read Only */}
+                    <section className="flex flex-col gap-6 px-6 pb-8">
+                        <div className="space-y-2">
+                            <Label htmlFor="username-mobile" className="text-sm">Username</Label>
+                            <Input
+                                id="username-mobile"
+                                type="text"
+                                value={formData.username}
+                                readOnly
+                                className="bg-transparent"
+                            />
+                        </div>
 
-                                    <Input
-                                        id={key}
-                                        type="text"
-                                        value={tempData[key]}
-                                        onChange={handleChange}
-                                        className="bg-[#0d0d0d] border border-white/10 text-white"
-                                    />
+                        <div className="space-y-2">
+                            <Label htmlFor="companyToken-mobile" className="text-sm">Company Token</Label>
+                            <Input
+                                id="companyToken-mobile"
+                                type="text"
+                                value={formData.companyToken}
+                                readOnly
+                                className="bg-transparent"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="email-mobile" className="text-sm">Email</Label>
+                            <Input
+                                id="email-mobile"
+                                type="email"
+                                value={formData.email}
+                                readOnly
+                                className="bg-transparent"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="phone-mobile" className="text-sm">Phone</Label>
+                            <Input
+                                id="phone-mobile"
+                                type="tel"
+                                value={formData.phone}
+                                readOnly
+                                className="bg-transparent"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="companyRole-mobile" className="text-sm">Company Role</Label>
+                            <Input
+                                id="companyRole-mobile"
+                                type="text"
+                                value={formData.companyRole}
+                                readOnly
+                                className="bg-transparent"
+                            />
+                        </div>
+                    </section>
+
+                    {/* Modal - Shared between mobile and desktop */}
+                    {isModalOpen && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="bg-[#1f1f1f] dark:bg-[#121212] w-full max-w-lg rounded-2xl p-6 shadow-xl border border-white/10">
+                                {/* Header */}
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-semibold text-white">Edit Profile</h2>
+                                    <button onClick={() => setIsModalOpen(false)}>
+                                        <X className="w-6 h-6 text-gray-400 hover:text-white" />
+                                    </button>
                                 </div>
-                            ))}
+
+                                {/* Form */}
+                                <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-1">
+                                    {(Object.keys(formData) as Array<keyof UserFormData>).map((key) => (
+                                        <div key={key} className="flex flex-col gap-2">
+                                            <Label htmlFor={key} className="capitalize text-white/80">
+                                                {key.replace(/([A-Z])/g, " $1")}
+                                            </Label>
+
+                                            <Input
+                                                id={key}
+                                                type="text"
+                                                value={tempData[key]}
+                                                onChange={handleChange}
+                                                className="bg-[#0d0d0d] border border-white/10 text-white"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="flex justify-end gap-3 mt-5">
+                                    <button
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="px-4 py-2 rounded-lg bg-stone-700 hover:bg-stone-600 text-white"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={saveChanges}
+                                        className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="flex w-full h-full items-center justify-items-center relative">
+                    {/* Profile Photo */}
+                    <section className="flex gap-3 h-full w-[40%] lg:w-[50%] relative">
+                        <div className="
+                            w-50 h-50
+                            lg:w-60 lg:h-60
+                            xl:w-90 xl:h-90
+                            bg-[url('/Avatar.jpeg')]
+                            shadow-[0_0_5px_2px_rgba(255,215,0,0.7)]
+                            dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]
+                            bg-no-repeat bg-cover bg-center
+                            pointer-events-none rounded-full
+                            absolute
+                            top-10 left-10
+                            lg:top-15 lg:left-15
+                            xl:top-20 xl:left-20"
+                        />
+                    </section>
+
+                    {/* Camera Button */}
+                    <button className="
+                        rounded-full
+                        shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                        dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                        bg-white dark:bg-stone-950
+                        p-3 flex items-center justify-center
+                        absolute
+                        top-55 left-55
+                        lg:top-68 lg:left-68
+                        xl:top-100 xl:left-100
+                        cursor-pointer"
+                    >
+                        <Camera className="text-dark dark:text-white w-5 h-5" />
+                    </button>
+
+                    {/* User Inputs */}
+                    <section className="h-[95%] w-[50%] flex gap-2 items-center justify-center rounded-md mt-40 lg:mt-0">
+
+                        <div className="h-[80%] w-1/2 flex flex-col gap-15 items-center justify-center">
+                            <div className="flex flex-col gap-5 justify-center w-full">
+                                <Label htmlFor="username">Username</Label>
+                                <Input id="username" type="text" value={formData.username} readOnly />
+                            </div>
+
+                            <div className="flex flex-col gap-5 justify-center w-full">
+                                <Label htmlFor="companyToken">Company Token</Label>
+                                <Input id="companyToken" type="text" value={formData.companyToken} readOnly />
+                            </div>
+
+                            <div className="flex flex-col gap-5 justify-center w-full">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" value={formData.email} readOnly />
+                            </div>
+
+                            <div className="flex flex-col gap-5 justify-center w-full">
+                                <Label htmlFor="phone">Phone</Label>
+                                <Input id="phone" type="tel" value={formData.phone} readOnly />
+                            </div>
+
+                            <div className="flex flex-col gap-5 justify-center w-full">
+                                <Label htmlFor="companyRole">Company Role</Label>
+                                <Input id="companyRole" type="text" value={formData.companyRole} readOnly />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Pencil button that opens modal */}
+                    <button
+                        onClick={() => {
+                            setTempData(formData);
+                            setIsModalOpen(true);
+                        }}
+                        className="
+                          shadow-[0_0_3px_2px_rgba(255,215,0,0.7)]
+                          dark:shadow-[0_0_3px_1px_rgba(255,255,255,0.7)]
+                          bottom-5 right-5 rounded-full bg-white
+                          dark:bg-stone-950 p-2 flex items-center justify-center
+                          cursor-pointer absolute"
+                    >
+                        <Pencil className="text-dark dark:text-white w-5 h-5" />
+                    </button>
+
+                    {/* ================= MODAL ================= */}
+                    {isModalOpen && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
+                            <div className="bg-[#1f1f1f] dark:bg-[#121212] w-[90%] max-w-lg rounded-2xl p-6 shadow-xl border border-white/10">
+
+                                {/* Header */}
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-semibold text-white">Edit Profile</h2>
+                                    <button onClick={() => setIsModalOpen(false)}>
+                                        <X className="w-6 h-6 text-gray-400 hover:text-white" />
+                                    </button>
+                                </div>
+
+                                {/* Form */}
+                                <div className="flex flex-col gap-4 max-h-[70vh] overflow-y-auto pr-1">
+
+                                    {(Object.keys(formData) as Array<keyof UserFormData>).map((key) => (
+                                        <div key={key} className="flex flex-col gap-2">
+                                            <Label htmlFor={key} className="capitalize text-white/80">
+                                                {key.replace(/([A-Z])/g, " $1")}
+                                            </Label>
+
+                                            <Input
+                                                id={key}
+                                                type="text"
+                                                value={tempData[key]}
+                                                onChange={handleChange}
+                                                className="bg-[#0d0d0d] border border-white/10 text-white"
+                                            />
+                                        </div>
+                                    ))}
+
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="flex justify-end gap-3 mt-5">
+                                    <button
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="px-4 py-2 rounded-lg bg-stone-700 hover:bg-stone-600 text-white"
+                                    >
+                                        Cancel
+                                    </button>
+
+                                    <button
+                                        onClick={saveChanges}
+                                        className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+
+                            </div>
 
                         </div>
-
-                        {/* Buttons */}
-                        <div className="flex justify-end gap-3 mt-5">
-                            <button
-                                onClick={() => setIsModalOpen(false)}
-                                className="px-4 py-2 rounded-lg bg-stone-700 hover:bg-stone-600 text-white"
-                            >
-                                Cancel
-                            </button>
-
-                            <button
-                                onClick={saveChanges}
-                                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
-                            >
-                                Save
-                            </button>
-                        </div>
-
-                    </div>
-
+                    )}
                 </div>
             )}
-        </div>
+        </>
     );
 }
