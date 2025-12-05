@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { SmilePlus } from "lucide-react";
+import {useDeviceStore} from "@/app/lib/store";
 
 interface User {
     id: string;
@@ -54,6 +55,8 @@ export default function ChatLocalComponent() {
         setInputText('');
         setShowPicker(false);
     };
+
+    const {isMobile} = useDeviceStore()
 
     const onEmojiClick = (emojiData: EmojiClickData) => {
         setInputText(prev => prev + emojiData.emoji);
@@ -120,7 +123,7 @@ export default function ChatLocalComponent() {
             </div>
 
             {/* Input + Emoji + Send */}
-            <div className="flex gap-2 items-center relative" ref={containerRefEmoji}>
+            <div className="flex gap-2 items-center">
 
                 {/* Text Input */}
                 <input
@@ -131,6 +134,7 @@ export default function ChatLocalComponent() {
                     placeholder="Type a message..."
                     className="
                         flex-1 p-2 border rounded-lg
+                        w-15
                         dark:bg-zinc-700 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-blue-500
                     "
@@ -141,21 +145,21 @@ export default function ChatLocalComponent() {
                     onClick={() => setShowPicker(!showPicker)}
                     className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700"
                 >
-                    <SmilePlus />
+                    <SmilePlus className="w-5 h-5"/>
                 </button>
 
                 {/* Emoji Picker */}
                 {showPicker && (
                     <div
                         className="
-                            absolute bottom-full right-0
-                            mb-3 z-50
-                        "
+                            md:bottom-full top-full right-0
+                            mb-3 z-50"
+                        ref={containerRefEmoji}
                     >
                         <EmojiPicker
                             onEmojiClick={onEmojiClick}
-                            height={350}
-                            width={250}
+                            height={isMobile ? 250 : 350}
+                            width={isMobile ? 200 : 250}
                         />
                     </div>
                 )}
@@ -165,7 +169,9 @@ export default function ChatLocalComponent() {
                     onClick={sendMessage}
                     disabled={!inputText.trim()}
                     className="
-                        px-4 py-2 rounded-lg
+                        md:px-4
+                        text-sm md:text-base
+                        px-2 py-2.5 rounded-lg
                         bg-blue-600 text-white
                         hover:bg-blue-700
                         disabled:opacity-40 disabled:cursor-not-allowed

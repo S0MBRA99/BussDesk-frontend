@@ -62,7 +62,14 @@ export default function NewTaskModal() {
         <>
             {/* Trigger Button */}
             <button
-                className="flex gap-2 cursor-pointer items-center bg-blue-500 hover:bg-blue-600 rounded-lg text-sm font-medium px-3 py-2 text-white"
+                className="
+                    flex gap-2 cursor-pointer
+                    items-center bg-blue-500
+                    hover:bg-blue-600 rounded-lg
+                    text-xs md:text-sm
+                    md:font-medium md:px-3 md:py-2
+                    px-1.5 py-1 ml-2
+                    text-white"
                 onClick={() => setIsOpen(true)}
                 title="New Task"
             >

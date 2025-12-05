@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import {DeviceStore} from "@/app/types";
+import {DeviceStore,TaskStore,TaskSection} from "@/app/types";
 
 
 export const useDeviceStore = create<DeviceStore>((set)=>({
@@ -11,3 +11,7 @@ export const useDeviceStore = create<DeviceStore>((set)=>({
     setIsMobile: (value:boolean)=> set({isMobile: value}),
 }))
 
+export const useTasksStore = create<TaskStore>((set) => ({
+    tasks: [],
+    setTasks: (value: TaskSection[]) => set({ tasks: value }),
+}));

@@ -81,6 +81,11 @@ export interface DataTableProps<TData, TValue> {
     data: TData[]
 }
 
+export type TaskStore = {
+    tasks: TaskSection[],
+    setTasks: (value: TaskSection[]) => void
+}
+
 export const dataTableTest:TaskSection[] = [ // THIS IS AN EXAMPLE OF A FETCH-DATA
     {
         id: "1",

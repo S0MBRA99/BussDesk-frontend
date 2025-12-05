@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react"
 import {
-    ColumnDef,
     flexRender,
     getCoreRowModel,
     useReactTable,
@@ -41,7 +40,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        //getPaginationRowModel: getPaginationRowModel(),// esto es lo que hace que haga paginacion de momento no esa implementado correctamente asiq comentado
+        //getPaginationRowModel: getPaginationRowModel(),// this makes pagination for now disabled
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
@@ -70,7 +69,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                             <FileSpreadsheet className="size-5 text-blue-500" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold">Tasks</h2>
+                            <h2 className="text-base md:text-lg font-semibold">Tasks</h2>
                             <p className="text-xs text-muted-foreground">
                                 {table.getFilteredRowModel().rows.length} of {data.length} tasks
                             </p>
