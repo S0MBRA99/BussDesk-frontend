@@ -10,7 +10,7 @@ export default function Register() {
 
     return (
         <>
-            <div className="min-h-screen bg-gradient-to-br p-8 flex flex-col items-center justify-center -mt-20">
+            <div className="min-h-screen bg-gradient-to-br p-8 flex flex-col items-center justify-center md:-mt-20">
                 <div className="mb-6 flex gap-4">
                     <button
                         onClick={() => setActiveForm('company')}

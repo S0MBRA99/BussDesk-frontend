@@ -25,11 +25,11 @@ export default function LoginForm(){
     }
 
     return (
-        <form className="space-y-4 bg-stone-200 rounded-lg shadow-2xl w-full max-w-2xl p-8" onSubmit={handleSubmit}>
+        <form className="space-y-4 bg-white rounded-lg shadow-2xl w-full md:max-w-1/4 max-w-3/4 p-8" onSubmit={handleSubmit}>
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
                 Login
             </h2>
-            <div className="flex flex-col w-1/2 mx-auto">
+            <div className="flex flex-col w-full md:w-1/2 mx-auto">
                 <label htmlFor="email" className="text-gray-700 text-sm font-medium">Email</label>
                 <input
                     type="email"
@@ -41,7 +41,7 @@ export default function LoginForm(){
                     onChange={handleChange}
                 />
             </div>
-            <div className="flex flex-col w-1/2 mx-auto pt-3">
+            <div className="flex flex-col w-full md:w-1/2 mx-auto pt-3">
                 <label htmlFor="password" className="text-gray-700 text-sm font-medium">Password</label>
                 <input
                     type="password"
@@ -53,10 +53,10 @@ export default function LoginForm(){
                     onChange={handleChange}
                 />
             </div>
-            <div className="flex w-1/3 mx-auto justify-center align-middle pt-7">
+            <div className="flex mx-auto justify-center align-middle pt-7">
                 <button
                     type="submit"
-                    className="bg-gray-200 hover:bg-blue-400 border border-gray-400 rounded py-2 px-4 text-gray-800 transition-colors"
+                    className="bg-blue-400 hover:bg-blue-500 border border-gray-400 rounded-md py-2 px-4 text-white transition-colors "
                 >
                     Login in
                 </button>
