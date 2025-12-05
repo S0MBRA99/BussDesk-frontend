@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/app/lib/utils";
+import {clsx} from "clsx";
 
 export default function NewTaskModal() {
     const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +85,12 @@ export default function NewTaskModal() {
                     />
 
                     {/* Modal Content */}
-                    <div className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none">
+                    <div
+                        className={clsx(
+                            "fixed inset-0 flex justify-center z-50 p-4 pointer-events-none",
+                            !isMobile && "items-center"
+                        )}
+                    >
                         <div className="pointer-events-auto bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-lg border border-zinc-200 dark:border-zinc-800 animate-in zoom-in-95 duration-200">
                             {/* Header */}
                             <div className="flex items-center justify-between p-6 border-b border-zinc-200 dark:border-zinc-800">

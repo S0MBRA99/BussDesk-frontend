@@ -117,7 +117,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   </div>
               </>
             ):(
-                <div className="flex items-center justify-between p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center justify-between p-4 pb-3 border-b border-zinc-200 dark:border-zinc-800"> {/* Desktop*/}
                     <div className="flex items-center gap-4 flex-1">
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-blue-500/10 rounded-lg">
